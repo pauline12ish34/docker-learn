@@ -1,0 +1,31 @@
+version: "3"
+services:
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - '5000:5000'
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=pauline
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=p12ish34
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+  nginx:
+    image: "dianK/nginx"
+    mem_limit: 128m
+    hostname: nginx
+    ports:
+      - "80:80"
